@@ -4,7 +4,6 @@ namespace app\controllers;
 use yii;
 use yii\web\Controller;
 
-
 class UserController extends Controller
 {
     private $userModel;
@@ -13,13 +12,13 @@ class UserController extends Controller
     //     $this->userModel=new UserModel();
     // }
 
-    public function actionIndex(){
+    public function actionIndex()
+    {
 
          $userModel =new \app\models\UserModel();
          $arraylist=$userModel->getAvailableUsersNames();
        //  return $userModel->getAvailableUsersNames();
-       var_dump($arraylist);
-
+        var_dump($arraylist);
     }
 
 
@@ -28,11 +27,15 @@ class UserController extends Controller
     {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $userModel =new \app\models\UserModel();
-      return  $arraylist=$userModel->getAvailableUsersNames();
+        return  $arraylist=$userModel->getAvailableUsersNames();
       //var_dump($arraylist);
     }
 
-    public function actionShow(){
-        echo "show";
+    /* 验证用证名和密码 */
+    public function actionValitPassword()
+    {
+        $request = Yii::$app->request;
+        $id = $request->post('id');
+        echo $id;
     }
 }

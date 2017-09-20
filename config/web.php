@@ -15,6 +15,7 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'qMuJJS9yLuGmqNkxo9fW0z5_udTCZCfS',
+            'csrfParam' => '_csrf-backend',//是因为yii2.0的防csrf问题，没有csrftoken是提交不成功的。
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -43,14 +44,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+     
     ],
     'params' => $params,
 ];

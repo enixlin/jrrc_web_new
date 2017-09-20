@@ -35,6 +35,8 @@
     <script src="./../../../jrrc_web_new/web/js/renderers/CanvasRenderer.js"></script>
     <script src="./../../../jrrc_web_new/web/js/libs/stats.min.js"></script>
     <script src="./../../../jrrc_web_new/web/js/libs/tween.min.js"></script>
+
+
    
 
 
@@ -48,7 +50,7 @@
             fields: ['id', 'name'],
             proxy: {
                 type: 'ajax',
-                url: '/jrrc_web_dev/web/user/get-available-users-names'
+                url: './../../../jrrc_web_new/web/user/get-available-users-names'
             }
         });
 
@@ -75,9 +77,17 @@
                 name: 'password',
                 inputType: 'password'
 
-            }, {
+            }, 
+            {
+                xtype: 'hiddenfield',
+                name:"_csrf-backend", 
+                 id:"_csrf",
+                 value:"<?php echo Yii::$app->request->csrfToken ?>"
+            }, 
+            
+            {
                 xtype: 'button',
-                icon: '/jrrc_web_dev/web/icons/door_in.png',
+                icon: './../../../jrrc_web_new/web/icons/door_in.png',
                 id: 'btn_submit',
                 text: '登   &nbsp&nbsp 录',
                 width: 170,
@@ -98,8 +108,10 @@
         // 登录窗口
         var LoginWin = Ext.create('Ext.window.Window', {
             width: 400,
+            x:900,
+            y:300,
             height: 200,
-            icon: '/jrrc_web_dev/web/icons/world/world.png',
+            icon: './../../../jrrc_web_new/web/icons/world/world.png',
             title: '欢迎使用国际业务信息查询工具--用户登录',
             items: [LoginForm]
         }).show();
@@ -109,6 +121,7 @@
             // 验证用户输入信息是否齐全
             var UID = Ext.getCmp('UID').value;
             var password = Ext.getCmp('password').value;
+            var _csrf_backend=Ext.getCmp('_csrf').value;
             if (UID != "" && password != "") {
             } else {
                 showError("用户名或密码请【填写完整】，请重新输入");
@@ -116,11 +129,12 @@
             }
             // 提交请求
             Ext.Ajax.request({
-                url: '/users/valitPassword',
+                url: './../../../jrrc_web_new/web/user/valit-password',
                 method: 'post',
                 params: {
                     'id': UID,
-                    'password': password
+                    'password': password,
+                    '_csrf-backend':_csrf_backend
                 },
                 success: function(response, opts) {
                     var result = eval("(" + response.responseText + ")"); //转换为json对象 
@@ -143,7 +157,7 @@
             Ext.create('Ext.window.Window', {
                 title: "输入信息出错",
                 modal: true,
-                icon: '/icons/error.png',
+                icon: './../../../jrrc_web_new/web/icons/error.png',
                 width: 300,
                 height: 100,
                 items: {
@@ -180,7 +194,10 @@
 
 
 <!--  以下是动画背景 --> 
+ 
 <script>
+
+function star(){
 var container, stats;
 var camera, scene, renderer, particle;
 var mouseX = 0,
@@ -297,5 +314,180 @@ function render() {
     camera.lookAt(scene.position);
     renderer.render(scene, camera);
 }
+}
 
-</script>
+
+function cube(){
+			var container, stats;
+			var camera, scene, renderer;
+			var geometry, group;
+			var mouseX = 0, mouseY = 0;
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			init();
+			animate();
+			function init() {
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera.position.z = 150;
+				scene = new THREE.Scene();
+				scene.background = new THREE.Color( 0xffffff );
+				scene.fog = new THREE.Fog( 0xffffff, 1, 10000 );
+				var geometry = new THREE.BoxGeometry( 100, 100, 100 );
+				var material = new THREE.MeshNormalMaterial();
+				group = new THREE.Group();
+				for ( var i = 0; i < 1000; i ++ ) {
+					var mesh = new THREE.Mesh( geometry, material );
+					mesh.position.x = Math.random() * 2000 - 1000;
+					mesh.position.y = Math.random() * 2000 - 1000;
+					mesh.position.z = Math.random() * 2000 - 1000;
+					mesh.rotation.x = Math.random() * 2 * Math.PI;
+					mesh.rotation.y = Math.random() * 2 * Math.PI;
+					mesh.matrixAutoUpdate = false;
+					mesh.updateMatrix();
+					group.add( mesh );
+				}
+				scene.add( group );
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+				stats = new Stats();
+				//container.appendChild( stats.dom );
+			//
+			window.addEventListener( 'resize', onWindowResize, false );
+			}
+			function onWindowResize() {
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			function onDocumentMouseMove(event) {
+				mouseX = ( event.clientX - windowHalfX ) * 10;
+				mouseY = ( event.clientY - windowHalfY ) * 10;
+			}
+			//
+			function animate() {
+				requestAnimationFrame( animate );
+				render();
+				stats.update();
+			}
+			function render() {
+				var time = Date.now() * 0.001;
+				var rx = Math.sin( time * 0.7 ) * 0.5,
+					ry = Math.sin( time * 0.3 ) * 0.5,
+					rz = Math.sin( time * 0.2 ) * 0.5;
+				camera.position.x += ( mouseX - camera.position.x ) * .05;
+				camera.position.y += ( - mouseY - camera.position.y ) * .05;
+				camera.lookAt( scene.position );
+				group.rotation.x = rx;
+				group.rotation.y = ry;
+				group.rotation.z = rz;
+				renderer.render( scene, camera );
+            }
+        }
+
+function particles(){
+    var container, stats;
+			var camera, scene, renderer, group, particle;
+			var mouseX = 0, mouseY = 0;
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+			init();
+			animate();
+			function init() {
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 3000 );
+				camera.position.z = 1000;
+				scene = new THREE.Scene();
+				var PI2 = Math.PI * 2;
+				var program = function ( context ) {
+					context.beginPath();
+					context.arc( 0, 0, 0.5, 0, PI2, true );
+					context.fill();
+				};
+				group = new THREE.Group();
+				scene.add( group );
+				for ( var i = 0; i < 1000; i++ ) {
+					var material = new THREE.SpriteCanvasMaterial( {
+						color: Math.random() * 0x808008 + 0x808080,
+						program: program
+					} );
+					particle = new THREE.Sprite( material );
+					particle.position.x = Math.random() * 2000 - 1000;
+					particle.position.y = Math.random() * 2000 - 1000;
+					particle.position.z = Math.random() * 2000 - 1000;
+					particle.scale.x = particle.scale.y = Math.random() * 20 + 10;
+					group.add( particle );
+				}
+				renderer = new THREE.CanvasRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+				stats = new Stats();
+				container.appendChild( stats.dom );
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				//
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+			function onWindowResize() {
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			//
+			function onDocumentMouseMove( event ) {
+				mouseX = event.clientX - windowHalfX;
+				mouseY = event.clientY - windowHalfY;
+			}
+			function onDocumentTouchStart( event ) {
+				if ( event.touches.length === 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			function onDocumentTouchMove( event ) {
+				if ( event.touches.length === 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			//
+			function animate() {
+				requestAnimationFrame( animate );
+				render();
+				stats.update();
+			}
+			function render() {
+				camera.position.x += ( mouseX - camera.position.x ) * 0.05;
+				camera.position.y += ( - mouseY - camera.position.y ) * 0.05;
+				camera.lookAt( scene.position );
+				group.rotation.x += 0.01;
+				group.rotation.y += 0.02;
+				renderer.render( scene, camera );
+			}
+}
+
+
+
+
+        var bg=Math.random( )*10;
+
+        (bg)>5?star():cube();
+       // (bg)>5?particles():cube();
+
+
+		</script> 
+        
+     
