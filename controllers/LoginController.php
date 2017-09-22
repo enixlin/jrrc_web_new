@@ -11,16 +11,21 @@ class LoginController extends Controller
 {
 
     public $layout = 'blank';
-    // public $defaultAction='show';
 
     public function actionIndex()
     {
-
         return $this->render('index');
     }
 
     public function actionLogin(){
         
+    }
+
+    public function actionLogout(){
+        $session = Yii::$app->session;
+        $_SESSION['role_name']=null;
+        $_SESSION['roleId']=null;
+        return $this->render('index');
     }
 
 

@@ -28,7 +28,6 @@
     <!-- 加载EXTjs中文配置文件 -->
     <script type="text/javascript" src="/jrrc_web_dev/web/Extjs/locale/locale-zh_CN-debug.js"></script>
 
-
     <!-- 引入动画背景的功能库 -->
     <script src="./../../../jrrc_web_new/web/build/three.js"></script>
     <script src="./../../../jrrc_web_new/web/js/renderers/Projector.js"></script>
@@ -139,7 +138,7 @@
                 success: function(response, opts) {
                     var result = eval("(" + response.responseText + ")"); //转换为json对象 
                     if (result.name) {
-                        window.location.href = "/main/"
+                        window.location.href = "./../../../jrrc_web_new/web/main"
                     } else {
                         showError("【用户名或密码有误】，请检查后重新输入");
                     }
