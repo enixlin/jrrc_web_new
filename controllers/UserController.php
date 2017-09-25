@@ -2,22 +2,23 @@
 namespace app\controllers;
 
 use yii;
-use yii\web\Controller;
+use yii\base\Controller;
 
 class UserController extends Controller
 {
     private $userModel;
 
     // public function __construct(){
-    //     $this->userModel=new UserModel();
+    //     $this->userModel=new \app\models\UserModel();
     // }
 
     public function actionIndex()
     {
 
-         $userModel =new \app\models\UserModel();
-         $arraylist=$userModel->getAvailableUsersNames();
+        // $userModel =new \app\models\UserModel();
+        // $arraylist=$userModel->getAvailableUsersNames();
        //  return $userModel->getAvailableUsersNames();
+      // $arraylist=$this->userModel->getAvailableUsersNames();
         var_dump($arraylist);
     }
 

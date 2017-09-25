@@ -428,8 +428,8 @@ function particles(){
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild( renderer.domElement );
-				stats = new Stats();
-				container.appendChild( stats.dom );
+				//stats = new Stats();
+				//container.appendChild( stats.dom );
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
 				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
@@ -466,7 +466,7 @@ function particles(){
 			function animate() {
 				requestAnimationFrame( animate );
 				render();
-				stats.update();
+				//stats.update();
 			}
 			function render() {
 				camera.position.x += ( mouseX - camera.position.x ) * 0.05;
@@ -478,13 +478,10 @@ function particles(){
 			}
 }
 
-
-
-
         var bg=Math.random( )*10;
 
         (bg)>5?star():cube();
-       // (bg)>5?particles():cube();
+        //(bg)>5?particles():cube();
 
 
 		</script> 
